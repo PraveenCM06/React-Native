@@ -11,6 +11,8 @@ export default function App() {
 
   function addGoalHandler() {
     setGoals([...goals, userInput]);
+    console.log(userInput);
+    setUserInput("");
   }
   return (
     <View style={styles.appContainer}>
@@ -19,13 +21,23 @@ export default function App() {
           onChangeText={goalInputHandler}
           style={styles.textInput}
           placeholder="Enter To do"
+          value={userInput}
         />
         <Button onPress={addGoalHandler} title="Add Goal" />
       </View>
       <View style={styles.goalsContainer}>
-        {goals.length > 1 ? <Text>List of Goals...</Text> : ""}
-        {goals.map((goal, index) => (
-          <Text key={index}>{goal}</Text>
+        {goals.length >= 1 ? (
+          <Text style={styles.listOfGoalsText}>List of Goals...</Text>
+        ) : (
+          ""
+        )}
+        {goals.map((goal, index) => ( 
+          <View style={styles.goalsListContainer}>
+          <Text style={styles.goalsList} key={index}>
+            {goal}
+          </Text>
+          <Button key={index} title="Delete"/>
+          </View>
         ))}
       </View>
     </View>
@@ -37,6 +49,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 100,
     flex: 1,
+    backgroundColor: "lavender",
   },
   textInput: {
     width: "78%",
@@ -58,5 +71,28 @@ const styles = StyleSheet.create({
   },
   goalsContainer: {
     flex: 5,
+  },
+  listOfGoalsText: {
+    fontSize: 30,
+    fontWeight: "600",
+    textAlign: "center",
+    textTransform: "uppercase",
+    marginBottom: 20,
+  },
+  goalsListContainer:{
+    flexDirection:'row',
+    alignItems:'center',
+    backgroundColor:'#5e0acc',
+    paddingHorizontal:12,
+    borderRadius:10
+  },
+  goalsList: {
+    color: "white",
+    backgroundColor: "#5e0acc",
+    borderRadius: 8,
+    padding: 20,
+    textAlign: "center",
+    margin: 8,
+    flex:1
   },
 });
