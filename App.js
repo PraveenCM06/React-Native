@@ -1,21 +1,26 @@
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function App() {
   const [userInput, setUserInput] = useState("");
   const [goals, setGoals] = useState([]);
   function goalInputHandler(enteredText) {
     setUserInput(enteredText);
-  }
+  };
+
 
   function addGoalHandler() {
     setGoals([...goals, userInput]);
     console.log(userInput);
     setUserInput("");
+  };
+
+  function handleDelete (index){
+    setGoals(goals.filter((_,i)=> i!=index));
   }
   return (
-    <View style={styles.appContainer}>
+    <ScrollView style={styles.appContainer}>
       <View style={styles.inputContainer}>
         <TextInput
           onChangeText={goalInputHandler}
@@ -36,11 +41,11 @@ export default function App() {
           <Text style={styles.goalsList} key={index}>
             {goal}
           </Text>
-          <Button key={index} title="Delete"/>
+          <Button onPress={()=>handleDelete(index)} key={index+1} title="Delete"/>
           </View>
         ))}
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -84,15 +89,17 @@ const styles = StyleSheet.create({
     alignItems:'center',
     backgroundColor:'#5e0acc',
     paddingHorizontal:12,
-    borderRadius:10
+    borderRadius:10,
+    marginBottom:5
   },
   goalsList: {
     color: "white",
     backgroundColor: "#5e0acc",
     borderRadius: 8,
-    padding: 20,
+    padding: 15,
     textAlign: "center",
     margin: 8,
-    flex:1
+    flex:1,
+    
   },
 });
